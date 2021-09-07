@@ -1,46 +1,28 @@
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Text, Input, Button } from "react-native-elements";
-import Spacer from "../components/Spacer";
+import React, { useContext, useEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import { NavigationEvents } from "react-navigation";
+import { Context as AuthContext } from "../context/AuthContext";
+import AuthForm from "../components/AuthForm";
+import NavLink from "../components/NavLink";
 
-const SignupScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const SignupScreen = () => {
+  const { state, registerUser, clearErrorMessage, tryLocalSignin } =
+    useContext(AuthContext);
+
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Spacer>
-        <Text h3 style={styles.heading}>
-          Sign Up for Tracker
-        </Text>
-      </Spacer>
-      <Spacer>
-        <Input
-          label="Email"
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={email}
-          onChangeText={setEmail}
-        />
-      </Spacer>
-      <Spacer>
-        <Input
-          label="Password"
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-      </Spacer>
-      <Spacer>
-        <Button
-          title="Sign Up"
-          onPress={() => {
-            navigation.navigate("Signin");
-          }}
-        />
-      </Spacer>
+      <NavigationEvents onWillFocus={clearErrorMessage} />
+      <AuthForm
+        headerText="Sign up for Tracker"
+        errorMessage={state.errorMessage}
+        onSubmit={registerUser}
+        submitButtonText="Sign Up"
+      />
+      <NavLink text="Already Have an Account?" routeName="Signin" />
     </View>
   );
 };
@@ -59,9 +41,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     paddingBottom: 100,
-  },
-  heading: {
-    alignSelf: "center",
-    marginBottom: 20,
   },
 });
