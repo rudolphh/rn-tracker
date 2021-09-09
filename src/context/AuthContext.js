@@ -69,9 +69,10 @@ const loginUser = (dispatch) => async (email, password) => {
   }
 };
 
-const signOutUser = (dispatch) => {
+const signOutUser = (dispatch) => async () => {
+    await AsyncStorage.removeItem('token');
     dispatch({ type: "signout"});
-    navigate("Signin");
+    navigate("loginFlow");
 };
 
 export const { Provider, Context } = createDataContext(
