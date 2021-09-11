@@ -4,13 +4,12 @@ import Spacer from "./Spacer";
 import { Context as LocationContext } from "../context/LocationContext";
 
 const TrackForm = () => {
-  const { state: { name, recording, locations },
+  const {
+    state: { name, recording, locations },
     startRecording,
     stopRecording,
-    changeName
+    changeName,
   } = useContext(LocationContext);
-
-  console.log(locations.length);
 
   return (
     <>
@@ -28,7 +27,9 @@ const TrackForm = () => {
         ) : (
           <Button title="Start Recording" onPress={startRecording} />
         )}
-
+      </Spacer>
+      <Spacer style={{ marginTop: 'auto', marginBottom: 10 }}>
+        {!recording && locations.length ? <Button title="Save" /> : null}
       </Spacer>
     </>
   );
