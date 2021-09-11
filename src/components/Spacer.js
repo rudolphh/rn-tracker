@@ -11,8 +11,7 @@ export default Spacer
 
 const styles = StyleSheet.create({
     spacer: {
-        marginVertical: 10,
         marginHorizontal: 20,
-        width: '80%'
+        alignSelf: 'stretch'
     }
 })

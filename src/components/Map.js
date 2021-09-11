@@ -5,13 +5,14 @@ import { Context as LocationContext } from "../context/LocationContext";
 
 const Map = () => {
   const {
-    state: { currentLocation },
+    state: { currentLocation, locations },
   } = useContext(LocationContext);
+
   if (!currentLocation)
     return <ActivityIndicator size="large" style={{ marginTop: 200 }} />;
 
   return (
-    <View>
+    <View style={styles.container}>
       <MapView
         style={styles.map}
         initialRegion={{
@@ -26,6 +27,11 @@ const Map = () => {
           strokeColor="rgba(158,158,255, 1.0)"
           fillColor="rgba(158,158,255, 0.3)"
         />
+        <Polyline
+          coordinates={locations.map((loc) => loc.coords)}
+          strokeWidth={5}
+          lineDashPattern={[20, 5]}
+        />
       </MapView>
     </View>
   );
@@ -34,6 +40,12 @@ const Map = () => {
 export default Map;
 
 const styles = StyleSheet.create({
+  container: {
+    borderColor: "lightgray",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginHorizontal: 20,
+  },
   map: {
     height: 300,
   },
