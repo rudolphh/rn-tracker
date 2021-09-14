@@ -1,15 +1,28 @@
-import { useContext } from 'react';
-import { Context as TrackContext } from '../context/TrackContext';
-import { Context as LocationContext } from '../context/LocationContext';
+import { useContext } from "react";
+import { Context as TrackContext } from "../context/TrackContext";
+import { Context as LocationContext } from "../context/LocationContext";
+import { Context as AuthContext } from "../context/AuthContext";
+import { navigate } from "../navigationRef";
 
 export default () => {
+  const { createTrack } = useContext(TrackContext);
+  const {
+    state: { locations, name },
+    reset,
+  } = useContext(LocationContext);
 
-    const { createTrack } = useContext(TrackContext);
-    const { state: { locations, name }} = useContext(LocationContext);
+  const { signOutUser } = useContext(AuthContext);
 
-    const saveTrack = () => {
-        createTrack(name, locations);
-    };
+  const saveTrack = async () => {
+    try {
+      await createTrack(name, locations);
+      reset();
+      navigate("TrackList");
+    } catch (err) {
+      signOutUser();
+      console.error(err);
+    }
+  };
 
-    return [saveTrack];
+  return [saveTrack];
 };

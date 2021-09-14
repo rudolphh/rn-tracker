@@ -16,7 +16,7 @@ const TrackForm = () => {
   const [saveTrack] = useSaveTrack();
 
   return (
-    <View style={{ borderColor: 'red', borderWidth: 1, flex: 1 }}>
+    <>
       <Spacer>
         <Input
           inputStyle={{ marginTop: 20 }}
@@ -27,9 +27,9 @@ const TrackForm = () => {
       </Spacer>
       <Spacer>
         {recording ? (
-          <Button title="Stop" onPress={stopRecording} />
+          <Button buttonStyle={{ backgroundColor: 'red'}} title="Stop" onPress={stopRecording} />
         ) : (
-          <Button title="Start Recording" onPress={startRecording} />
+          <Button buttonStyle={{ backgroundColor: 'green'}} title="Start Recording" onPress={startRecording} />
         )}
       </Spacer>
       <Spacer style={{ marginTop: 200 }}>
@@ -37,7 +37,7 @@ const TrackForm = () => {
           <Button title="Save" onPress={() => saveTrack(name, locations)} />
         ) : null}
       </Spacer>
-    </View>
+    </>
   );
 };
 
